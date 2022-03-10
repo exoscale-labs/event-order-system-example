@@ -1,0 +1,145 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: exoscale-order-party-frontend
+  name: exoscale-order-party-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: exoscale-order-party-frontend
+  template:
+    metadata:
+      labels:
+        app: exoscale-order-party-frontend
+    spec:
+      containers:
+      - image: exo.container-registry.com/a1di-cloud-coe-dev/exoscale-order-party-frontend:latest
+        name: exoscale-order-party-frontend
+        resources: {}
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: exoscale-order-party-backend
+  name: exoscale-order-party-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: exoscale-order-party-backend
+  template:
+    metadata:
+      labels:
+        app: exoscale-order-party-backend
+    spec:
+      containers:
+      - image: exo.container-registry.com/a1di-cloud-coe-dev/exoscale-order-party-backend:latest
+        name: exoscale-order-party-backend
+        resources: {}
+        ports:
+        - containerPort: 8080
+        env:
+        - name: PGHOST
+          valueFrom:
+            secretKeyRef:
+              name: order-pg-credentials
+              key: PGHOST
+        - name: PGPORT
+          valueFrom:
+            secretKeyRef:
+              name: order-pg-credentials
+              key: PGPORT
+        - name: PGUSER
+          valueFrom:
+            secretKeyRef:
+              name: order-pg-credentials
+              key: PGUSER
+        - name: PGPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: order-pg-credentials
+              key: PGPASSWORD
+        - name: PGDATABASE
+          valueFrom:
+            secretKeyRef:
+              name: order-pg-credentials
+              key: PGDATABASE
+        - name: PGSSLMODE
+          valueFrom:
+            secretKeyRef:
+              name: order-pg-credentials
+              key: PGSSLMODE
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: exoscale-order-party-frontend
+  name: order-frontend
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: exoscale-order-party-frontend
+  type: ClusterIP
+status:
+  loadBalancer: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: exoscale-order-party-backend
+  name: order-backend
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: exoscale-order-party-backend
+  type: ClusterIP
+status:
+  loadBalancer: {}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-order-party
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - host: "order.cldsvc.io"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: order-frontend
+            port:
+              number: 8080
+  - host: "exoscale-order-backend.cldsvc.io"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: order-backend
+            port:
+              number: 8080

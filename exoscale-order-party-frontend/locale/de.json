@@ -1,0 +1,18 @@
+{
+    "hello": "Hallo {name}!",
+    "welcome-notice": "Wähle zuerst einen Nick und bestelle dann dein Getränk!",
+    "step1": "Schritt 1: Nickname eingeben",
+    "step1-notice": "Der Name ist öffentlich!",
+    "step2": "Schritt 2: Getränk auswählen",
+    "step2-notice": "Du kannst deine Bestellung oder den Namen jederzeit ändern (dies erstellt keine Zweite)",
+    "ordered-message": "{name} bestellte {drink}",
+    "success": "Erfolg!",
+    "nickname": "Spitzname",
+    "drinks": {
+        "coffee": "Kaffee",
+        "tea": "Tee",
+        "mojito": "Mojito",
+        "caiprinha": "Caiprinha",
+        "beer": "Bier"
+    }
+}
