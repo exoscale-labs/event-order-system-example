@@ -25,9 +25,9 @@ It generates a UUID and saves it into the browseres local storage, the UUID is s
 
 The app is fully horizontally scalable.
 
-Special URLS:
-`?bar` - requests all orders and shows them
-`?qr` - Shows the main page but with a QR code at the bottom
+Special URLS:  
+`?bar` - requests all orders and shows them  
+`?qr` - Shows the main page but with a QR code at the bottom  
 
 ## Docker and Kubernetes
 
@@ -51,7 +51,7 @@ Error handling in the backend can be improved.
 
 ## Architecture
 
-![Architecture](digrams/architecture.png)
+![Architecture](diagrams/architecture.png)
 
 
 ## Disclaimer
