@@ -9,10 +9,17 @@
     "success": "Success!",
     "nickname": "Nickname",
     "drinks": {
-        "coffee": "Coffee",
-        "tea": "Tee",
-        "mojito": "Mojito",
-        "caiprinha": "Caiprinha",
-        "beer": "Beer"
+        "1": "Redwine",
+        "2": "Whitewine",
+        "3": "Sect",
+        "4": "Beer",
+        "5": "Wheat Beer (no alcohol)",
+        "6": "Radler (mixed beer)",
+        "7": "Fritz Kola",
+        "8": "Fritz Limo",
+        "9": "Red Bull",
+        "10": "Apple spritzer",
+        "11": "Water with gas",
+        "12": "Water still"
     }
 }

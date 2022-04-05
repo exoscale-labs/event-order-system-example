@@ -53,3 +53,17 @@ kubectl apply -f app.yaml
 ```
 
 Set the DNS of the frontend and backend to the IP of the created Exoscale NLB.
+
+# Terraform
+
+Requires kubectl binary to work
+
+By applying the Terraform script will ask for several required credentials and variables to deploy a working environment.
+```
+terraform init
+terraform apply
+```
+DNS is not included as the demo account does not have a domain regitered. Set DNS manually after deployment to NLB outside IP
+
+
+

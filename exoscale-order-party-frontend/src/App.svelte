@@ -11,11 +11,18 @@
 	const socket = io(process.env.backendurl);
 
 	let drinks = [
-		{ id: 1, name: $_("drinks.coffee"), img: 'img/coffee.jpeg' },
-		{ id: 2, name: $_("drinks.tea"), img: 'https://picsum.photos/200/150' },
-		{ id: 3, name: $_("drinks.mojito"), img: 'https://picsum.photos/200/150' },
-		{ id: 4, name: $_("drinks.caiprinha"), img: 'https://picsum.photos/200/150' },
-		{ id: 5, name: $_("drinks.beer"), img: 'https://picsum.photos/200/150' }
+		{ id: 1, name: $_("drinks.1"), img: 'img/01_rotwein_icon_ea8.png' },
+		{ id: 2, name: $_("drinks.2"), img: 'img/02_weisswein_icon_ea8.png' },
+		{ id: 3, name: $_("drinks.3"), img: 'img/03_sekt_icon_ea8.png' },
+		{ id: 4, name: $_("drinks.4"), img: 'img/04_bier_1_icon_ea8.png' },
+		{ id: 5, name: $_("drinks.5"), img: 'img/05_bier_2_icon_ea8.png' },
+		{ id: 5, name: $_("drinks.6"), img: 'img/06_bier_3_icon_ea8.png' },
+		{ id: 5, name: $_("drinks.7"), img: 'img/06_fritz_kola_icon_ea8.png' },
+		{ id: 5, name: $_("drinks.8"), img: 'img/07_fritz_limo_icon_ea8.png' },
+		{ id: 5, name: $_("drinks.9"), img: 'img/08_red_bull_icon_ea8.png' },
+		{ id: 5, name: $_("drinks.10"), img: 'img/09_apfelschorle_icon_ea8.png' },
+		{ id: 5, name: $_("drinks.11"), img: 'img/10_wasser_prickelnd_icon_ea8.png' },
+		{ id: 5, name: $_("drinks.12"), img: 'img/11_wasser_still_icon_ea8.png' },
 	];
 
 	//// ------------ Drink selection ------------
