@@ -15,7 +15,7 @@ spec:
         app: exoscale-order-party-frontend
     spec:
       containers:
-      - image: exo.container-registry.com/a1di-cloud-coe-dev/exoscale-order-party-frontend:latest
+      - image: exo.container-registry.com/exoscale-images/exoscale-order-party-frontend:latest
         name: exoscale-order-party-frontend
         resources: {}
         ports:
@@ -40,7 +40,7 @@ spec:
         app: exoscale-order-party-backend
     spec:
       containers:
-      - image: exo.container-registry.com/a1di-cloud-coe-dev/exoscale-order-party-backend:latest
+      - image: exo.container-registry.com/exoscale-images/exoscale-order-party-backend:latest
         name: exoscale-order-party-backend
         resources: {}
         ports:

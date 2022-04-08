@@ -6,14 +6,14 @@ You can replace nerdctl with docker if you don't use containerd.
 
 **Frontend**:
 ```
-nerdctl build --platform=linux/x86_64 -t exo.container-registry.com/a1di-cloud-coe-dev/exoscale-order-party-frontend:latest exoscale-order-party-frontend
+nerdctl build --platform=linux/x86_64 -t exo.container-registry.com/exoscale-images/exoscale-order-party-frontend:latest exoscale-order-party-frontend
 ```
 
 **Backend**:
 Set the ENV BACKENDURL if neccessary (will be only updated on build; default is http://exoscale-order-backend.cldsvc.io)
 
 ```
-nerdctl build --platform=linux/x86_64 -t exo.container-registry.com/a1di-cloud-coe-dev/exoscale-order-party-backend:latest exoscale-order-party-backend
+nerdctl build --platform=linux/x86_64 -t exo.container-registry.com/exoscale-images/exoscale-order-party-backend:latest exoscale-order-party-backend
 ```
 
 ## Push
@@ -24,8 +24,8 @@ nerdctl login exo.container-registry.com
 ```
 
 ```
-nerdctl push exo.container-registry.com/a1di-cloud-coe-dev/exoscale-order-party-frontend:latest
-nerdctl push exo.container-registry.com/a1di-cloud-coe-dev/exoscale-order-party-backend:latest
+nerdctl push exo.container-registry.com/exoscale-images/exoscale-order-party-frontend:latest
+nerdctl push exo.container-registry.com/exoscale-images/exoscale-order-party-backend:latest
 ```
 
 
