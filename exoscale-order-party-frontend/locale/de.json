@@ -9,17 +9,6 @@
     "success": "Erfolg!",
     "nickname": "Spitzname",
     "drinks": {
-        "1": "Rotwein",
-        "2": "Weißwein",
-        "3": "Sekt",
-        "4": "Bier",
-        "5": "Weizen (alkoholfrei)",
-        "6": "Radler",
-        "7": "Fritz Kola",
-        "8": "Fritz Limo",
-        "9": "Red Bull",
-        "10": "Apfelschorle",
-        "11": "Wasser Prickelnd",
-        "12": "Wasser Still"
+        "1": "Kaffee"
     }
 }
