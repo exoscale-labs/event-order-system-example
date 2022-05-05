@@ -36,6 +36,7 @@ Generate a secret for your container registry (generate secret at *harbor -> you
 kubectl create secret docker-registry regcred --docker-server=exo.container-registry.com --docker-username=ROBOUSERNAME --docker-password=KEY
 ```
 
+LEGACY - Done in main.tf - file is created based on input and imported automatically. User for DB need to be "avnadmin" as hardcoded in frontend container.
 Create SQL credentials secret (adapt the secret file first...). Don't forget to populate the DB first with the sql file included in the backend code.
 ```
 kubectl create secret generic order-pg-credentials --from-env-file=db-secret.sh
