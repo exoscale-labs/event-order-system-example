@@ -65,7 +65,7 @@ By applying the Terraform script will ask for several required credentials and v
 terraform init
 terraform apply
 ```
-DNS is not included as the demo account does not have a domain regitered. Set DNS manually after deployment to NLB outside IP
+DNS is now included, as our Domain is in a different Exoscale Organization, we need to specify different API/Secret Key for 
 
 
 
