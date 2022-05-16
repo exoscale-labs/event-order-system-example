@@ -1,14 +1,5 @@
-variable "project" { type = string }
-variable "exoscale_api_key" { type = string }
-variable "exoscale_api_secret" { type = string }
-variable "exoscale_pgsql_user" { type = string }
-variable "exoscale_pgsql_pwd" { type = string }
-variable "exoscale_zone" { type = string }
-variable "exoscale_priv_reg_user" { type = string }
-variable "exoscale_priv_reg_pwd" { type = string }
-
 locals {
-  zone = var.exoscale_zone
+  zone = "CH-DK-2"
 }
 
 terraform {
@@ -21,42 +12,55 @@ terraform {
 
 
 provider "exoscale" {
-  key    = var.exoscale_api_key
-  secret = var.exoscale_api_secret
+  key    = "${var.exoscale_api_key}"
+  secret = "${var.exoscale_api_secret}"
 }
 
 resource "exoscale_security_group" "sks" {
   name = "${var.project}-sks"
 }
 
-resource "exoscale_security_group_rules" "sks" {
-  security_group = exoscale_security_group.sks.name
-
-  ingress {
-    description              = "Calico traffic"
-    protocol                 = "UDP"
-    ports                    = ["4789"]
-    user_security_group_list = [exoscale_security_group.sks.name]
-  }
-
-  ingress {
-    description = "Nodes logs/exec"
-    protocol  = "TCP"
-    ports     = ["10250"]
-    user_security_group_list = [exoscale_security_group.sks.name]
-  }
-
-  ingress {
-    description = "NodePort services"
-    protocol    = "TCP"
-    cidr_list   = ["0.0.0.0/0", "::/0"]
-    ports       = ["30000-32767"]
-  }
+resource "exoscale_security_group_rule" "calico-traffic" {
+  security_group_id = exoscale_security_group.sks.id
+  type = "INGRESS"
+  protocol = "UDP"
+  start_port = "4789"
+  end_port = "4789"
+  user_security_group_id = exoscale_security_group.sks.id
 }
+
+resource "exoscale_security_group_rule" "nodes-logs-exec" {
+  security_group_id = exoscale_security_group.sks.id
+  type = "INGRESS"
+  protocol = "TCP"
+  start_port = "10250"
+  end_port = "10250"
+  user_security_group_id = exoscale_security_group.sks.id
+}
+
+resource "exoscale_security_group_rule" "nodeport-services-ipv4" {
+  security_group_id = exoscale_security_group.sks.id
+  type = "INGRESS"
+  protocol = "TCP"
+  start_port = "30000"
+  end_port = "32767"
+  cidr = "0.0.0.0/0"
+}
+
+resource "exoscale_security_group_rule" "nodeport-services-ipv6" {
+  security_group_id = exoscale_security_group.sks.id
+  type = "INGRESS"
+  protocol = "TCP"
+  start_port = "30000"
+  end_port = "32767"
+  cidr = "::/0"
+}
+
 
 resource "exoscale_sks_cluster" "prod" {
   zone    = local.zone
   name    = "${var.project}-prod"
+  depends_on         = [exoscale_security_group.sks, exoscale_security_group_rule.calico-traffic, exoscale_security_group_rule.nodes-logs-exec, exoscale_security_group_rule.nodeport-services-ipv4, exoscale_security_group_rule.nodeport-services-ipv6 ]
 }
 
 resource "exoscale_sks_nodepool" "nodepool" {
@@ -67,6 +71,7 @@ resource "exoscale_sks_nodepool" "nodepool" {
   instance_type      = "standard.medium"
   size               = 3
   security_group_ids = [exoscale_security_group.sks.id]
+  depends_on         = [exoscale_security_group.sks]
 }
 
 resource "exoscale_sks_kubeconfig" "prod_admin" {
@@ -92,7 +97,7 @@ resource "exoscale_database" "pgprod" {
   maintenance_dow  = "sunday"
   maintenance_time = "23:00:00"
 
-  termination_protection = true
+  termination_protection = false
   pg {
     version 	  	 = "14"
     backup_schedule	 = "01:00"
@@ -112,15 +117,6 @@ PGDATABASE=exoscale-order
 PGSSLMODE=require
 EOF
  filename = "db-secret.sh"
-}
-
-resource "null_resource" "sec_priv_reg" {
-  provisioner "local-exec" {
-    command      = "kubectl --kubeconfig kube_config create secret docker-registry regcred --docker-server=exo.container-registry.com --docker-username=${var.exoscale_priv_reg_user} --docker-password=${var.exoscale_priv_reg_pwd}"
-  }
-  depends_on = [
-    resource.local_file.kube_config # optional if need to fit this in with other preceding resource
-  ]
 }
 
 resource "null_resource" "sec_db_cred" {
@@ -143,7 +139,7 @@ resource "null_resource" "sleep" {
 
 resource "null_resource" "sql_prep" {
   provisioner "local-exec" {
-    command      = "psql ${exoscale_database.pgprod.uri} -f ../exoscale-order-party-backend/sql/order.sql"
+    command      = "export PGPASSWORD='${var.exoscale_pgsql_pwd}'; psql ${exoscale_database.pgprod.uri} -f ../exoscale-order-party-backend/sql/order.sql"
   }
   depends_on = [
     resource.null_resource.sleep # optional if need to fit this in with other preceding resource

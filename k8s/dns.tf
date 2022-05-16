@@ -7,7 +7,8 @@ provider "exoscale" {
 
 resource "null_resource" "getsvcip" {
   provisioner "local-exec" {
-    command      = "> ingress_ips.txt; until ! kubectl --kubeconfig kube_config get service --all-namespaces |grep LoadBalancer |grep ingress-nginx | grep pending; do echo still pending; sleep 5;done;  kubectl --kubeconfig kube_config get service --all-namespaces |grep LoadBalancer |grep ingress-nginx |awk '{print $5}' > ingress_ips.txt"
+    #command      = "> ingress_ips.txt; until ! kubectl --kubeconfig kube_config get service --all-namespaces |grep LoadBalancer |grep ingress-nginx | grep pending; do echo still pending; sleep 5;done;  kubectl --kubeconfig kube_config get service --all-namespaces |grep LoadBalancer |grep ingress-nginx |awk '{print $5}' > ingress_ips.txt"
+    command      = "> ingress_ips.txt; until ! kubectl --kubeconfig kube_config get services/ingress-nginx-controller -n ingress-nginx | grep pending; do echo still pending; sleep 5;done;  kubectl --kubeconfig kube_config get services/ingress-nginx-controller -n ingress-nginx |grep ingress-nginx |awk '{print $4}' > ingress_ips.txt"
   }
   depends_on = [
     resource.null_resource.k8s_app # optional if need to fit this in with other preceding resource

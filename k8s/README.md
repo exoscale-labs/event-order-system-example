@@ -57,8 +57,9 @@ Set the DNS of the frontend and backend to the IP of the created Exoscale NLB.
 
 # Terraform
 
-Requires kubectl binary to work
+Requires kubectl and psql binary to work
 
+Please generate a terraform.tfvars file with all needed variables
 By applying the Terraform script will ask for several required credentials and variables to deploy a working environment.
 ```
 terraform init

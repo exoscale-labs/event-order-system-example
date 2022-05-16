@@ -9,6 +9,9 @@
     "success": "Success!",
     "nickname": "Nickname",
     "drinks": {
-        "1": "Coffee"
+        "1": "Coffee",
+	"2": "Red wine",
+	"3": "White wine",
+	"4": "Beer"
     }
 }

@@ -1,0 +1,7 @@
+terraform.tfvars
+ingress_ips.txt
+db-secret.sh
+terraform.tfstate
+terraform.tfstate.backup
+*.terraform*
+kube_config

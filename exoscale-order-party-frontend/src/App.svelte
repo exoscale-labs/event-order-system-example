@@ -12,6 +12,9 @@
 
 	let drinks = [
 		{ id: 1, name: $_("drinks.1"), img: 'img/coffee.jpeg' },
+		{ id: 2, name: $_("drinks.2"), img: 'img/redwine.jpeg' },
+		{ id: 3, name: $_("drinks.3"), img: 'img/whitewine.jpeg' },
+		{ id: 4, name: $_("drinks.4"), img: 'img/beer.jpeg' },
 	];
 
 	//// ------------ Drink selection ------------
