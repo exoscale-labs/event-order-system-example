@@ -1,7 +1,3 @@
-locals {
-  zone = "CH-DK-2"
-}
-
 terraform {
   required_providers {
     exoscale = {
@@ -58,14 +54,14 @@ resource "exoscale_security_group_rule" "nodeport-services-ipv6" {
 
 
 resource "exoscale_sks_cluster" "prod" {
-  zone    = local.zone
+  zone    = "${var.zone}"
   name    = "${var.project}-prod"
   depends_on         = [exoscale_security_group.sks, exoscale_security_group_rule.calico-traffic, exoscale_security_group_rule.nodes-logs-exec, exoscale_security_group_rule.nodeport-services-ipv4, exoscale_security_group_rule.nodeport-services-ipv6 ]
 }
 
 resource "exoscale_sks_nodepool" "nodepool" {
 
-  zone               = local.zone
+  zone               = "${var.zone}"
   cluster_id         = exoscale_sks_cluster.prod.id
   name               = "${var.project}-nodepool"
   instance_type      = "standard.medium"
@@ -75,7 +71,7 @@ resource "exoscale_sks_nodepool" "nodepool" {
 }
 
 resource "exoscale_sks_kubeconfig" "prod_admin" {
-  zone = local.zone
+  zone = "${var.zone}"
   ttl_seconds = 360000
   early_renewal_seconds = 300
   cluster_id = exoscale_sks_cluster.prod.id
@@ -89,7 +85,7 @@ resource "local_file" "kube_config" {
 }
 
 resource "exoscale_database" "pgprod" {
-  zone = local.zone
+  zone = "${var.zone}"
   name = "${var.project}-prod"
   type = "pg"
   plan = "startup-8"
