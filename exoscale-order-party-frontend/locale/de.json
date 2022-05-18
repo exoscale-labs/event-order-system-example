@@ -9,9 +9,10 @@
     "success": "Erfolg!",
     "nickname": "Spitzname",
     "drinks": {
-        "1": "Kaffee",
-	"2": "Rotwein",
-	"3": "Weißwein",
-	"4": "Bier"
+        "1": "Espresso",
+	"2": "Cappuccino",
+	"3": "Tee",
+	"4": "Wasser",
+	"5": "Fruchtsaft"
     }
 }

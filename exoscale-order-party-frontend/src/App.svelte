@@ -11,10 +11,15 @@
 	const socket = io(process.env.backendurl);
 
 	let drinks = [
-		{ id: 1, name: $_("drinks.1"), img: 'img/coffee.jpeg' },
-		{ id: 2, name: $_("drinks.2"), img: 'img/redwine.jpeg' },
-		{ id: 3, name: $_("drinks.3"), img: 'img/whitewine.jpeg' },
-		{ id: 4, name: $_("drinks.4"), img: 'img/beer.jpeg' },
+//		{ id: 1, name: $_("drinks.1"), img: 'img/coffee.jpeg' },
+//		{ id: 2, name: $_("drinks.2"), img: 'img/redwine.jpeg' },
+//		{ id: 3, name: $_("drinks.3"), img: 'img/whitewine.jpeg' },
+//		{ id: 4, name: $_("drinks.4"), img: 'img/beer.jpeg' },
+		{ id: 1, name: $_("drinks.1"), img: 'img/espresso_web.jpeg' },
+		{ id: 2, name: $_("drinks.2"), img: 'img/cappuccino_web.jpeg' },
+		{ id: 3, name: $_("drinks.3"), img: 'img/tee_web.jpeg' },
+		{ id: 4, name: $_("drinks.4"), img: 'img/water_web.jpeg' },
+		{ id: 5, name: $_("drinks.5"), img: 'img/orangensaft_web.jpeg' },
 	];
 
 	//// ------------ Drink selection ------------
