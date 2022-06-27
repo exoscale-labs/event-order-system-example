@@ -65,7 +65,7 @@ resource "exoscale_sks_nodepool" "nodepool" {
   cluster_id         = exoscale_sks_cluster.prod.id
   name               = "${var.project}-nodepool"
   instance_type      = "standard.medium"
-  size               = 3
+  size               = 2
   security_group_ids = [exoscale_security_group.sks.id]
   depends_on         = [exoscale_security_group.sks]
 }
