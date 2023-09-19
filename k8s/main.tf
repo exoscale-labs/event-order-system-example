@@ -103,9 +103,16 @@ resource "exoscale_database" "pgprod" {
   }
 }
 
+data "exoscale_database_uri" "pgprod" {
+  name = "${var.project}-prod"
+  type = "pg"
+  zone = "${var.zone}"
+  depends_on         = [ exoscale_database.pgprod ]
+}
+
 resource "local_file" "db-secret" {
  content = <<EOF
-PGHOST=${element(split(":",element(split("@",exoscale_database.pgprod.uri),1)),0)}
+PGHOST=${element(split(":",element(split("@",data.exoscale_database_uri.pgprod.uri),1)),0)}
 PGPORT=21699
 PGUSER=${var.exoscale_pgsql_user}
 PGPASSWORD=${var.exoscale_pgsql_pwd}
@@ -135,10 +142,10 @@ resource "null_resource" "sleep" {
 
 resource "null_resource" "sql_prep" {
   provisioner "local-exec" {
-    command      = "export PGPASSWORD='${var.exoscale_pgsql_pwd}'; psql ${exoscale_database.pgprod.uri} -f ../exoscale-order-party-backend/sql/order.sql"
+    command      = "export PGPASSWORD='${var.exoscale_pgsql_pwd}'; psql ${data.exoscale_database_uri.pgprod.uri} -f ../exoscale-order-party-backend/sql/order.sql"
   }
   depends_on = [
-    resource.null_resource.sleep # optional if need to fit this in with other preceding resource
+    resource.null_resource.sleep # optional if need to fit this in with other preceding resource, exoscale_database_uri.pgprod
   ]
 }
 
